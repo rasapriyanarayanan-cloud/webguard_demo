@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebGuard</title>
+<style>
+:root{--bg:#f1f5fb;--card:#fff;--ink:#0f172a;--mut:#64748b;--navy:#0b1730;--blue:#1d4ed8;--g:#16a34a;--o:#f59e0b;--i:#2563eb;--r:#dc2626}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Roboto,"Noto Sans Tamil",sans-serif;background:var(--bg);color:var(--ink);display:flex;min-height:100vh}
+aside{width:210px;background:var(--navy);color:#cbd5e1;padding:18px 12px;position:sticky;top:0;height:100vh;flex-shrink:0}
+aside h1{color:#fff;font-size:20px;margin:0 6px}aside small{display:block;margin:2px 6px 18px;font-size:11px}
+aside a{display:block;padding:10px 12px;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:14px;margin-bottom:4px;cursor:pointer}
+aside a:hover,aside a.on{background:#1e3a8a;color:#fff}
+main{flex:1;padding:18px 24px;min-width:0}
+.hero{background:linear-gradient(90deg,#1e3a8a,#2563eb);color:#fff;border-radius:12px;padding:18px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.row input[type=text]{flex:1;min-width:220px}
+input,select,button{padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;font-size:14px}
+button{background:#fff;color:var(--blue);font-weight:600;cursor:pointer}button.p{background:var(--blue);color:#fff;border:0}
+.hero label{font-size:12px;display:block;margin-top:8px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:16px}@media(max-width:980px){.grid{grid-template-columns:1fr}aside{display:none}}
+.card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px #0001}
+.card h3{margin:0 0 10px;font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{border-radius:10px;padding:12px;text-align:center}
+.stat b{font-size:22px;display:block}.s1{background:#ecfdf3}.s2{background:#fff7e6}.s3{background:#eff6ff}.s0{background:#f1f5f9}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px 6px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}
+.tag{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.pass{background:#dcfce7;color:#166534}.review{background:#ffedd5;color:#9a3412}.info{background:#dbeafe;color:#1e40af}.na{background:#e2e8f0;color:#475569}
+.det td{background:#f8fafc}.code{background:#0f172a;color:#e2e8f0;padding:8px;border-radius:6px;font-family:Consolas,monospace;font-size:12px;overflow-x:auto;margin-top:6px}
+.ring{width:130px;height:130px;border-radius:50%;margin:6px auto;display:grid;place-items:center}
+.ring div{width:96px;height:96px;background:#fff;border-radius:50%;display:grid;place-items:center;text-align:center;font-weight:700;font-size:22px}
+.err{background:#fee2e2;color:#991b1b;padding:10px;border-radius:8px;margin-top:10px;display:none}
+.mut{color:var(--mut);font-size:12px}.bar{height:10px;border-radius:5px;background:#e2e8f0;overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%}
+footer{margin-top:10px;font-size:12px;color:var(--mut)}
+</style></head><body>
+<aside><h1>🛡 WebGuard</h1><small>Website Security Assessment &amp; Remediation Assistant</small>
+<a class="on" data-t="dash">🏠 Dashboard</a><a data-t="scan">🔍 Scan Website</a><a data-t="lab">🧪 Local Practice Lab</a>
+<a data-t="cmp">⚖ Before &amp; After</a><a data-t="rep">📄 Report</a><a data-t="set">⚙ Settings</a>
+<p class="mut" style="margin:30px 8px">Learn · Fix · Stay Secure</p></aside>
+<main>
+<div class="hero" id="scan"><b style="font-size:18px">Scan a Website</b><div class="mut" style="color:#dbeafe">Enter a URL to check basic security configuration and get step-by-step fixes.</div>
+<div class="row"><input type="text" id="url" value="https://example.com"><select id="mode"><option value="public">Public Website</option><option value="local">Local Practice</option></select>
+<button class="p" style="background:#0b1730" id="go">Run Scan</button></div>
+<label><input type="checkbox" id="consent"> I own this website or have written permission to test it.</label></div>
+<div class="err" id="err"></div>
+
+<div class="grid"><div>
+ <div class="card" id="dash"><h3>Scan Results <span class="mut" id="when"></span></h3>
+  <div class="stats"><div class="stat s0"><b id="score">--</b>Score <div class="mut" id="risk"></div></div><div class="stat s1"><b id="np">-</b>Passed</div><div class="stat s2"><b id="nr">-</b>Needs Attention</div><div class="stat s3"><b id="ni">-</b>Info</div></div></div>
+ <div class="card"><h3>Security Findings</h3><table><thead><tr><th>Check</th><th>Status</th><th>Details</th><th class="ta">Explanation (Tamil + English)</th><th></th></tr></thead><tbody id="tb"><tr><td colspan="5" class="mut">Run a scan to see results.</td></tr></tbody></table></div>
+</div><div>
+ <div class="card" id="lab"><h3>🧪 Local Practice Lab</h3><p class="mut">Run <code>python practice_lab.py</code> first. Safe, legal targets on your own laptop.</p>
+  <div class="row"><button id="lb">Insecure site :8001</button><button id="la">Secure site :8002</button></div></div>
+ <div class="card" id="cmp"><h3>Before &amp; After Comparison</h3><button class="p" id="cb">Compare Lab Sites</button><div id="cres" class="mut" style="margin-top:10px">Scans both practice sites and shows the improvement.</div></div>
+ <div class="card"><h3>🔧 Fix Guidance</h3><div id="fix" class="mut">Run a scan to see fixes for each issue.</div></div>
+ <div class="card" id="rep"><h3>Download Security Report</h3><p class="mut">PDF with findings, recommendations and sample config.</p><button class="p" id="pdf">Download PDF Report</button></div>
+ <div class="card" id="set"><h3>⚙ Settings</h3><label class="mut">Explanation language</label><select id="lang"><option value="both">Tamil + English</option><option value="en">English only</option></select></div>
+</div></div>
+<footer>Note: basic security assessment only. It sends one normal GET request and does not perform a penetration test. Test only what you own or have permission to test.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);let last=null;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const L={pass:'PASS',review:'REVIEW',info:'INFO',na:'N/A'};
+async function api(url,mode){
+  const r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,mode,consent:$('consent').checked})});
+  const d=await r.json();if(!r.ok)throw new Error(d.error);return d;}
+function err(m){const e=$('err');e.textContent=m||'';e.style.display=m?'block':'none';}
+function render(d){last=d;err('');
+ $('score').textContent=d.score+'/100';$('risk').textContent=d.risk;$('when').textContent='· '+d.scanned_at+' · '+d.url;
+ $('np').textContent=d.passed+' / '+d.total;$('nr').textContent=d.review+' / '+d.total;$('ni').textContent=d.info+' / '+d.total;
+ const both=$('lang').value==='both';
+ $('tb').innerHTML=d.findings.map((f,i)=>`<tr><td><b>${esc(f.title)}</b></td><td><span class="tag ${f.status}">${L[f.status]}</span></td><td>${esc(f.detail)}</td>
+  <td class="ta">${both?esc(f.ta):'—'}</td><td><button onclick="document.getElementById('d${i}').hidden=!document.getElementById('d${i}').hidden">View</button></td></tr>
+  <tr class="det" id="d${i}" hidden><td colspan="5"><b>Problem:</b> ${esc(f.fix.problem)}<br><b>Solution:</b> ${esc(f.fix.solution)}<div class="code">${esc(f.fix.snippet)}</div></td></tr>`).join('');
+ const bad=d.findings.filter(f=>f.status==='review'||f.status==='info');
+ $('fix').innerHTML=bad.length?bad.map(f=>`<p><b>${esc(f.title)}</b><br><span class="mut">${esc(f.fix.solution)}</span></p><div class="code">${esc(f.fix.snippet)}</div>`).join(''):'🎉 No issues found.';
+}
+async function run(url,mode){try{$('go').textContent='Scanning…';render(await api(url,mode));}catch(e){err(e.message)}$('go').textContent='Run Scan';}
+$('go').onclick=()=>run($('url').value,$('mode').value);
+$('lb').onclick=()=>{$('url').value='http://127.0.0.1:8001';$('mode').value='local';run($('url').value,'local')};
+$('la').onclick=()=>{$('url').value='http://127.0.0.1:8002';$('mode').value='local';run($('url').value,'local')};
+$('lang').onchange=()=>last&&render(last);
+$('cb').onclick=async()=>{try{const b=await api('http://127.0.0.1:8001','local'),a=await api('http://127.0.0.1:8002','local');
+ const col=s=>s>=85?'var(--g)':s>=60?'var(--o)':'var(--r)';
+ $('cres').innerHTML=[['Before (insecure)',b],['After (fixed)',a]].map(([n,x])=>`<b>${n}: ${x.score}/100</b><div class="bar"><i style="width:${x.score}%;background:${col(x.score)}"></i></div>`).join('')+`<b style="color:var(--g)">+${a.score-b.score} points improvement</b>`;err('');}catch(e){err(e.message+' (is practice_lab.py running?)')}};
+$('pdf').onclick=async()=>{if(!last)return err('Run a scan first.');const r=await fetch('/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(last)});
+ const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download='webguard_report.pdf';a.click();};
+document.querySelectorAll('aside a').forEach(a=>a.onclick=()=>{document.querySelectorAll('aside a').forEach(x=>x.classList.remove('on'));a.classList.add('on');$(a.dataset.t).scrollIntoView({behavior:'smooth'})});
+</script></body></html>
